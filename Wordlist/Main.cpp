@@ -13,7 +13,6 @@ struct node
 	vector<int> next;//能在末尾连接的下一个单词序号
 	int wordlen;//单词长度
 };
-
 void readfile(string filepath);
 void newnode(string word);
 void addtomap(node newword);
