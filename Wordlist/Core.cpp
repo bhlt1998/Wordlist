@@ -1,7 +1,8 @@
-#include"Core.h"
+
 #include<iostream>
 #include<string>
 #include <vector>
+#include"Core.h"
 using std::string;
 using std::vector;
 using std::cout;
@@ -9,12 +10,9 @@ using std::endl;
 
 
 
-Core::Core(){}
+Core::Core() {}
 Core::~Core() {}
-void Core::testprint(int x)
-{
-	std::cout << x << std::endl;
-}
+
 int Core::gen_chain_word(char* words[], int len, char* result[], char head, char tail, bool enable_loop)
 {
 	int i = 0;
@@ -36,7 +34,7 @@ int Core::gen_chain_word(char* words[], int len, char* result[], char head, char
 	}
 	return forest[resultindex].size();
 }
-int Core::gen_chain_char(char* words[], int len, char* result[], char head, char tail, bool enable_loop) 
+int Core::gen_chain_char(char* words[], int len, char* result[], char head, char tail, bool enable_loop)
 {
 	int i = 0;
 	if_r = enable_loop;
@@ -245,7 +243,7 @@ int Core::findlongest(char head, char tail)
 	{
 		for (i = 0; i < forest.size(); i++)
 		{
-			if (map[forest[i][0]].head == head_alpha)
+			if (map[forest[i][0]].head == head)
 			{
 				length = listlength(i);
 				if (length > templong)
@@ -260,7 +258,7 @@ int Core::findlongest(char head, char tail)
 	{
 		for (i = 0; i < forest.size(); i++)
 		{
-			if (map[forest[i].back()].tail == tail_alpha)
+			if (map[forest[i].back()].tail == tail)
 			{
 				length = listlength(i);
 				if (length > templong)
@@ -275,7 +273,7 @@ int Core::findlongest(char head, char tail)
 	{
 		for (i = 0; i < forest.size(); i++)
 		{
-			if (map[forest[i][0]].head == head_alpha && map[forest[i].back()].tail == tail_alpha)
+			if (map[forest[i][0]].head == head && map[forest[i].back()].tail == tail)
 			{
 				length = listlength(i);
 				if (length > templong)
@@ -297,7 +295,7 @@ int Core::findlongest(char head, char tail)
 			}
 		}
 	}
-	if (tempindex>=0 && forest[tempindex].size() > 1)
+	if (tempindex >= 0 && forest[tempindex].size() > 1)
 	{
 		return tempindex;
 	}
