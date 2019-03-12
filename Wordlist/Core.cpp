@@ -1,4 +1,3 @@
-
 #include<iostream>
 #include<string>
 #include <vector>
@@ -7,8 +6,6 @@ using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
-
-
 
 Core::Core() {}
 Core::~Core() {}
@@ -20,6 +17,20 @@ int Core::gen_chain_word(char* words[], int len, char* result[], char head, char
 	if_w = true;
 	if_h = isalpha(head);
 	if_t = isalpha(tail);
+	if (isalpha(head))
+	{
+		if (isupper(head))
+		{
+			head = tolower(head);
+		}
+	}
+	if (isalpha(tail))
+	{
+		if (isupper(tail))
+		{
+			tail = tolower(tail);
+		}
+	}
 	int resultindex = -1;
 	for (i = 0; i < len; i++)
 	{
@@ -41,6 +52,20 @@ int Core::gen_chain_char(char* words[], int len, char* result[], char head, char
 	if_c = true;
 	if_h = isalpha(head);
 	if_t = isalpha(tail);
+	if (isalpha(head))
+	{
+		if (isupper(head))
+		{
+			head = tolower(head);
+		}
+	}
+	if (isalpha(tail))
+	{
+		if (isupper(tail))
+		{
+			tail = tolower(tail);
+		}
+	}
 	int resultindex = -1;
 	for (i = 0; i < len; i++)
 	{
