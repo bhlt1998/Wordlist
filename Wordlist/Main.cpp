@@ -22,7 +22,7 @@ void printtofile(char* result[], int resultlen);
 //void printmap();
 //void printnode(node n);
 //void printforest();
-vector<string> readword;
+vector<string> readword; 
 /*----------------------------------------------------------------*/
 int main(int argc, char* argv[])
 {	
