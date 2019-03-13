@@ -13,6 +13,10 @@ Core::~Core() {}
 int Core::gen_chain_word(char* words[], int len, char* result[], char head, char tail, bool enable_loop)
 {
 	int i = 0;
+	if ((!isalpha&&head != 0)||(!isalpha(tail) && tail != 0))
+	{
+		throw exception("首尾字母约束不合法");
+	}
 	if_r = enable_loop;
 	if_w = true;
 	if_h = isalpha(head);
@@ -39,6 +43,10 @@ int Core::gen_chain_word(char* words[], int len, char* result[], char head, char
 	}
 	toforest();
 	resultindex = findmostwords(head, tail);
+	if (resultindex < 0)
+	{
+		return 0;
+	}
 	for (i = 0; i < forest[resultindex].size(); i++)
 	{
 		result[i] = const_cast<char*>(map[forest[resultindex][i]].nodeword.c_str());
@@ -48,6 +56,10 @@ int Core::gen_chain_word(char* words[], int len, char* result[], char head, char
 int Core::gen_chain_char(char* words[], int len, char* result[], char head, char tail, bool enable_loop)
 {
 	int i = 0;
+	if ((!isalpha&&head != 0) || (!isalpha(tail) && tail != 0))
+	{
+		throw exception("首尾字母约束不合法");
+	}
 	if_r = enable_loop;
 	if_c = true;
 	if_h = isalpha(head);
@@ -74,6 +86,9 @@ int Core::gen_chain_char(char* words[], int len, char* result[], char head, char
 	}
 	toforest();
 	resultindex = findlongest(head, tail);
+	if (resultindex < 0) {
+		return 0;
+	}
 	for (i = 0; i < forest[resultindex].size(); i++)
 	{
 		result[i] = const_cast<char*>(map[forest[resultindex][i]].nodeword.c_str());
@@ -85,8 +100,16 @@ void Core::newnode(string word)
 {
 	node newword;
 	int i = 0;
+	if (word.length() == 0)
+	{
+		throw exception("有单词为空字符");
+	}
 	for (i = 0; i < word.length(); i++)
 	{
+		if (!isalpha(word[i]))
+		{
+			throw exception("单词包含非法字符");
+		}
 		if (isupper(word[i]))
 		{
 			word[i] = tolower(word[i]);
@@ -150,9 +173,9 @@ void Core::next1(vector<int> forward, int root)
 		if (forward[i] == root)//有环
 		{
 			if (!if_r)
-			{
-				cout << "错误： 含有单词环" << endl;
-
+			{				
+//				cout << "错误： 含有单词环" << endl;
+				throw exception("单词文本隐含单词环");			
 			}
 			else {
 				if (forward.size() > 1)
@@ -185,8 +208,8 @@ void Core::next2(vector<int> forward, int root)
 		{
 			if (!if_r)
 			{
-				cout << "错误： 含有单词环" << endl;
-
+//				cout << "错误： 含有单词环" << endl;
+				throw exception("单词文本隐含单词环");
 			}
 			else {
 				if (forward.size() > 1)

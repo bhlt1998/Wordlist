@@ -26,116 +26,128 @@ vector<string> readword;
 /*----------------------------------------------------------------*/
 int main(int argc, char* argv[])
 {	
+	try {
+		char* result[10001];
+		char* words[10001];
+		int wordslen = 0;
+		string filepath;
+		char* parameter;
+		int i = 0;
+		int resultlen = 0;
+		bool if_head = false;
+		bool if_tail = false;
+		bool if_word = false;
+		bool if_char = false;
+		bool if_roun = false;
+		char head_alpha = 0;
+		char tail_alpha = 0;
+		Core* core = new Core();
 
-	char* result[10001];
-	char* words[10001];
-	int wordslen = 0;
-	string filepath;
-	char* parameter;
-	int i = 0;
-	int resultlen = 0;
-	bool if_head = false;
-	bool if_tail = false;
-	bool if_word = false;
-	bool if_char = false;
-	bool if_roun = false;
-	char head_alpha = 0;
-	char tail_alpha = 0;
-	Core* core = new Core();
-//	char* wrods2[] = { "apple","elephant","tex" };
-//	core->gen_chain_word(wrods2, 3, result, 0, 0, false);
-	/*----------------------命令行参数处理---------------------------*/
-	if (argc > 1)
-	{
-		for (i = 1; i < argc; i++)
+		/*----------------------命令行参数处理---------------------------*/
+		if (argc > 1)
 		{
-			parameter = argv[i];
-			if (strcmp(parameter, "-h") == 0)
+			for (i = 1; i < argc; i++)
 			{
-				if (if_head)
-				{
-					cout << "错误：-h参数重复" << endl;
-				}
-				if_head = true;
-				i++;
 				parameter = argv[i];
-				if (strlen(parameter) == 1 && isalpha(parameter[0]))
+				if (strcmp(parameter, "-h") == 0)
 				{
-					head_alpha = parameter[0];
+					if (if_head)
+					{
+						cout << "错误：-h参数重复" << endl;
+						exit(0);
+					}
+					if_head = true;
+					i++;
+					parameter = argv[i];
+					if (strlen(parameter) == 1 && isalpha(parameter[0]))
+					{
+						head_alpha = parameter[0];
+					}
+					else
+					{
+						cout << "错误：-h后没有字母" << endl;
+						exit(0);
+					}
 				}
-				else
+				else if (strcmp(parameter, "-t") == 0)
 				{
-					cout << "错误：-h后没有字母" << endl;
+					if (if_tail)
+					{
+						cout << "错误：-t参数重复" << endl;
+						exit(0);
+					}
+					if_tail = true;
+					i++;
+					parameter = argv[i];
+					if (strlen(parameter) == 1 && isalpha(parameter[0]))
+					{
+						tail_alpha = parameter[0];
+					}
+					else
+					{
+						cout << "错误：-t后没有字母" << endl;
+						exit(0);
+					}
 				}
-			}
-			else if (strcmp(parameter, "-t") == 0)
-			{
-				if (if_tail)
+				else if (strcmp(parameter, "-r") == 0)
 				{
-					cout << "错误：-t参数重复" << endl;
+					if (if_roun)
+					{
+						cout << "错误：-r参数重复" << endl;
+						exit(0);
+					}
+					if_roun = true;
 				}
-				if_tail = true;
-				i++;
-				parameter = argv[i];
-				if (strlen(parameter) == 1 && isalpha(parameter[0]))
+				else if (strcmp(parameter, "-w") == 0)
 				{
-					tail_alpha = parameter[0];
+					if (if_word || if_char)
+					{
+						cout << "错误：-w\-c参数重复" << endl;
+						exit(0);
+					}
+					if_word = true;
+					i++;
+					filepath = argv[i];
+					//				readfile(filepath);				
 				}
-				else
+				else if (strcmp(parameter, "-c") == 0)
 				{
-					cout << "错误：-t后没有字母" << endl;
+					if (if_word || if_char)
+					{
+						cout << "错误：-w\-c参数重复" << endl;
+						exit(0);
+					}
+					if_char = true;
+					i++;
+					filepath = argv[i];
+					//				readfile(filepath);
 				}
-			}
-			else if (strcmp(parameter, "-r") == 0)
-			{
-				if (if_roun)
-				{
-					cout << "错误：-r参数重复" << endl;
+				else {
+					cout << "错误：参数错误" << endl;
+					exit(0);
 				}
-				if_roun = true;
-			}
-			else if (strcmp(parameter, "-w") == 0)
-			{
-				if (if_word || if_char)
-				{
-					cout << "错误：-w\-c参数重复" << endl;
-				}
-				if_word = true;
-				i++;
-				filepath = argv[i];
-//				readfile(filepath);				
-			}
-			else if (strcmp(parameter, "-c") == 0)
-			{
-				if (if_word || if_char)
-				{
-					cout << "错误：-w\-c参数重复" << endl;
-				}
-				if_char = true;
-				i++;
-				filepath = argv[i];
-//				readfile(filepath);
-			}
-			else {
-				cout << "错误：参数错误" << endl;
 			}
 		}
+		else {
+			cout << "参数错误" << endl;
+			exit(0);
+		}
+		wordslen = readfile(filepath, words);
+		if (if_word)
+		{
+			resultlen = core->gen_chain_word(words, wordslen, result, head_alpha, tail_alpha, if_roun);
+		}
+		else if (if_char)
+		{
+			resultlen = core->gen_chain_char(words, wordslen, result, head_alpha, tail_alpha, if_roun);
+		}
+		if (resultlen > 1) {
+			printdetail(result, resultlen);
+			printtofile(result, resultlen);
+		}
 	}
-	else {
-		cout << "参数错误" << endl;
-	}
-	wordslen = readfile(filepath,words);
-	if (if_word)
-	{
-		resultlen = core->gen_chain_word(words, wordslen, result, head_alpha, tail_alpha, if_roun);
-	}
-	else if (if_char)
-	{
-		resultlen = core->gen_chain_char(words, wordslen, result, head_alpha, tail_alpha, if_roun);
-	}
-	if (resultlen > 1) {
-		printdetail(result,resultlen);
-		printtofile(result,resultlen);
+	catch (exception e) {
+		cout <<"错误： " << e.what() << endl;
 	}
 	return 0;
 }
@@ -157,6 +169,7 @@ int readfile(string filepath, char* words[])
 	if (!infile)
 	{
 		cout << "文件不存在" << endl;
+		exit(0);
 	}
 	char ch;
 	string word;
