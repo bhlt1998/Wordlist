@@ -43,6 +43,7 @@ int main(int argc, char* argv[])
 		char tail_alpha = 0;
 		Core* core = new Core();
 
+
 		/*----------------------命令行参数处理---------------------------*/
 		if (argc > 1)
 		{
