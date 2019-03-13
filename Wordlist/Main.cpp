@@ -165,10 +165,6 @@ int readfile(string filepath, char* words[])
 		ch = infile.get();
 		if (isalpha(ch))
 		{
-			if (isupper(ch))//大写转换为小写
-			{
-				ch = tolower(ch);
-			}
 			word += ch;
 		}
 		else {

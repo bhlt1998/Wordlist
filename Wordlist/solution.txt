@@ -1,4 +1,7 @@
-algebra
+text
+tell
+lest
+tear
+rella
 apple
-elephant
-trick
+ear

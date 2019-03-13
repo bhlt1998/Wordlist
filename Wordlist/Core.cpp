@@ -84,6 +84,14 @@ int Core::gen_chain_char(char* words[], int len, char* result[], char head, char
 void Core::newnode(string word)
 {
 	node newword;
+	int i = 0;
+	for (i = 0; i < word.length(); i++)
+	{
+		if (isupper(word[i]))
+		{
+			word[i] = tolower(word[i]);
+		}
+	}
 	newword.nodeword = word;
 	newword.head = word[0];
 	newword.tail = word.back();
@@ -257,6 +265,7 @@ int Core::findmostwords(char head, char tail)
 	{
 		return tempindex;
 	}
+	return -1;
 }
 int Core::findlongest(char head, char tail)
 {
@@ -324,6 +333,7 @@ int Core::findlongest(char head, char tail)
 	{
 		return tempindex;
 	}
+	return -1;
 }
 int Core::listlength(int index)
 {
