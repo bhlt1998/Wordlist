@@ -285,6 +285,7 @@ namespace UnitTest1
 			catch (exception e) {
 				Assert::AreEqual("ÓÐµ¥´ÊÎª¿Õ×Ö·û´®", e.what());
 			}
+
 		}
 	};
 }
