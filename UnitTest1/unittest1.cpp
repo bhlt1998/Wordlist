@@ -215,5 +215,76 @@ namespace UnitTest1
 				Assert::AreEqual(stranswer, strresult);
 			}
 		}
+		//ErrorTest
+		TEST_METHOD(ErrorTest1)//包含单词环但是没有-r参数
+		{
+			Core* core = new Core();
+			char* result[100];
+			char* words[] = { "apple","elephant","tea","alex","box","xob","cccccff","football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc" };
+			char* answer[] = { "football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc","cccccff" };
+			int answerlen = 3;
+			try {
+				int resultlen = core->gen_chain_char(words, 9, result, 0, 'f', false);
+			}
+			catch (exception e) {
+				Assert::AreEqual("单词文本隐含单词环", e.what());
+			}
+		}
+		TEST_METHOD(ErrorTest2)//输入的单词中有非法字符，elephant 的字母l被空格代替
+		{
+			Core* core = new Core();
+			char* result[100];
+			char* words[] = { "apple","e ephant","tea","alex","box","xob","cccccff","football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc" };
+			char* answer[] = { "football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc","cccccff" };
+			int answerlen = 3;
+			try {
+				int resultlen = core->gen_chain_char(words, 9, result, 0, 'f', false);
+			}
+			catch (exception e) {
+				Assert::AreEqual("单词包含非法字符", e.what());
+			}
+		}
+		TEST_METHOD(ErrorTest3)//首尾字母约束不合法，用 -h *
+		{
+			Core* core = new Core();
+			char* result[100];
+			char* words[] = { "apple","elephant","tea","alex","box","xob","cccccff","football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc" };
+			char* answer[] = { "football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc","cccccff" };
+			int answerlen = 3;
+			try {
+				int resultlen = core->gen_chain_char(words, 9, result, '*', 0, false);
+			}
+			catch (exception e) {
+				Assert::AreEqual("首尾字母约束不合法", e.what());
+			}
+		}
+		TEST_METHOD(ErrorTest4)//首尾字母约束不合法，用 -t 2
+		{
+			Core* core = new Core();
+			char* result[100];
+			char* words[] = { "apple","elephant","tea","alex","box","xob","cccccff","football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc" };
+			char* answer[] = { "football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc","cccccff" };
+			int answerlen = 3;
+			try {
+				int resultlen = core->gen_chain_char(words, 9, result, 0, 2, false);
+			}
+			catch (exception e) {
+				Assert::AreEqual("首尾字母约束不合法", e.what());
+			}
+		}
+		TEST_METHOD(ErrorTest5)//有单词为空字符串 ""
+		{
+			Core* core = new Core();
+			char* result[100];
+			char* words[] = { "apple","","tea","alex","box","xob","cccccff","football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc" };
+			char* answer[] = { "football","lllllllllllllllllllllllllllllllllllllllllllllllllllllllllc","cccccff" };
+			int answerlen = 3;
+			try {
+				int resultlen = core->gen_chain_char(words, 9, result, 0, 0, false);
+			}
+			catch (exception e) {
+				Assert::AreEqual("有单词为空字符串", e.what());
+			}
+		}
 	};
 }

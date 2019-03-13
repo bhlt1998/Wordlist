@@ -13,9 +13,10 @@ Core::~Core() {}
 int Core::gen_chain_word(char* words[], int len, char* result[], char head, char tail, bool enable_loop)
 {
 	int i = 0;
-	if ((!isalpha&&head != 0)||(!isalpha(tail) && tail != 0))
+	if ((!isalpha(head) && head != 0)||(!isalpha(tail) && tail != 0))
 	{
 		throw exception("首尾字母约束不合法");
+		return 0;
 	}
 	if_r = enable_loop;
 	if_w = true;
@@ -56,9 +57,10 @@ int Core::gen_chain_word(char* words[], int len, char* result[], char head, char
 int Core::gen_chain_char(char* words[], int len, char* result[], char head, char tail, bool enable_loop)
 {
 	int i = 0;
-	if ((!isalpha&&head != 0) || (!isalpha(tail) && tail != 0))
+	if ((!isalpha(head) &&head != 0) || (!isalpha(tail) && tail != 0))
 	{
 		throw exception("首尾字母约束不合法");
+		return 0;
 	}
 	if_r = enable_loop;
 	if_c = true;
@@ -102,13 +104,15 @@ void Core::newnode(string word)
 	int i = 0;
 	if (word.length() == 0)
 	{
-		throw exception("有单词为空字符");
+		throw exception("有单词为空字符串");
+		return;
 	}
 	for (i = 0; i < word.length(); i++)
 	{
 		if (!isalpha(word[i]))
 		{
 			throw exception("单词包含非法字符");
+			return;
 		}
 		if (isupper(word[i]))
 		{
